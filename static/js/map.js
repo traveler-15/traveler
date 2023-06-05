@@ -1,5 +1,19 @@
 'use strict';
 
+      // 가고싶은 여행지 검색 
+function save_comment() {
+   let query = $("#name").val();
+
+   let formData = new FormData();
+   formData.append("query_give", query);
+
+   fetch("/place/search", { method: "POST", body: formData })
+      .then((res) => res.json())
+      .then((data) => {
+         console.log(data["result"]["items"]);
+   });
+}
+
 let xMap = 37.3595704
 let yMap = 127.105399
 
