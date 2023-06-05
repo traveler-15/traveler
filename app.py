@@ -7,7 +7,6 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://sparta:test@cluster0.lrw9rvw.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
-
 @app.route('/')
 def home():
    return render_template('index.html')
@@ -20,7 +19,7 @@ def place_search():
 
     encText = urllib.parse.quote(query_receive)
     url = "https://openapi.naver.com/v1/search/local.json?query=" + encText + \
-                "&display=5"#받을 데이터 갯수
+                "&display=10"#받을 데이터 갯수
 
     request1 = urllib.request.Request(url)
     request1.add_header("X-Naver-Client-Id",client_id)
