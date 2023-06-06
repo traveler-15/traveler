@@ -72,43 +72,6 @@
         margin-bottom: 10px;
       }
     </style>
-    <script>
-    
-
-      $(document).ready(function () {
-        set_temp();
-      });
-      function set_temp() {
-        fetch("http://spartacodingclub.shop/sparta_api/weather/seoul")
-          .then((res) => res.json())
-          .then((data) => {
-            let temp = data["temp"];
-            $("#temp").text(temp);
-          });
-      }
-      function show_comment() {
-        fetch("/guestbook")
-          .then((res) => res.json())
-          .then((data) => {
-            let rows = data["result"];
-            $("#comment-list").empty();
-            rows.forEach((a) => {
-              let name = a["name"];
-              let comment = a["comment"];
-
-              let temp_html = `<div class="card">
-                                    <div class="card-body">
-                                    <blockquote class="blockquote mb-0">
-                                        <p>${comment}</p>
-                                        <footer class="blockquote-footer">${name}</footer>
-                                    </blockquote>
-                                    </div>
-                                </div>`;
-              $("#comment-list").append(temp_html);
-            });
-          });
-      }
-    </script>
   </head>
   <body>
     <!-- Map 불러오기 -->
@@ -118,35 +81,16 @@
         <input type="text" class="form-control" id="name" placeholder="url" />
         <label for="floatingInput">가고싶은 여행지 입력</label>
       </div>
-      <button onclick="save_comment()" type="button" class="btn btn-dark">
+      <button id ="search" onclick="search_place()" type="button" class="btn btn-dark">
         여행지 추천 검색
       </button>
     </div>
-    <div class="mycards" id="comment-list">
-      <div class="card">
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-            <p>내가 가고싶은 여행지 찜 1</p>
-            <footer class="blockquote-footer">호빵맨</footer>
-          </blockquote>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-            <p>내가 가고싶은 여행지 찜 2</p>
-            <footer class="blockquote-footer">호빵맨</footer>
-          </blockquote>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-            <p>내가 가고싶은 여행지 찜 3</p>
-            <footer class="blockquote-footer">호빵맨</footer>
-          </blockquote>
-        </div>
-      </div>
+    <div>
+      <button id="to-jeju" type="button" class="btn btn-dark">
+        제주
+      </button>
+    </div>
+    <div class="mycards" id="search_list">
     </div>
   </body>
 </html>
