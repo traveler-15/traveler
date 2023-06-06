@@ -1,12 +1,25 @@
 from flask import Flask, render_template, jsonify, request
 import urllib.request
 import json
+from pyproj import Proj, transform
+
 app = Flask(__name__)
 
 from pymongo import MongoClient
 client = MongoClient('mongodb+srv://sparta:test@cluster0.lrw9rvw.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
+
+WGS84 = {'proj':'latlong', 'datum':'WGS84', 'ellps':'WGS84',}
+KATEC = {'proj':'tmerc', 'lat_0':'38N', 'lon_0':'128E', 'ellps':'bessel',
+'x_0':'400000', 'y_0':'600000', 'k':'0.9999', 'a':'6377397.155', 'b':'6356078.9628181886',
+'towgs84':'-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43', 'units':'m'}
+
+inProj = Proj(**KATEC)
+outProj = Proj(**WGS84)
+
+x2, y2 = transform(inProj, outProj, 309947, 552092)
+print(x2, y2)
 
 @app.route('/')
 def home():
@@ -33,6 +46,7 @@ def place_search():
         return jsonify({'result': result})
     else:#성공시 'result':'실패'
         return jsonify({'result': "실패"})
+
 
 
 if __name__ == '__main__':
