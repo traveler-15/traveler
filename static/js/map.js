@@ -61,6 +61,7 @@ const select_map = function(count,xMap,yMap) {
    });
 }
 
+
 // 초기 Map 설정
 // let xMap = 37.3595704
 // let yMap = 127.105399

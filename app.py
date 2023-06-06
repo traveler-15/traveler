@@ -30,13 +30,18 @@ def place_search():
         response_body = response.read()
         # result를 배열 안에 객체 형태로 제작 부탁드립니다.
         result = json.loads(response_body)
-        print(result['items'])
-        result2 = [{'title': '몽탄', 'link': 'http://www.mongtan.co.kr','address': '서울특별시 용산구 한강로1가 251-1', 'mapx': '33.3590628', 'mapy': '126.534361'},
-                  {'title': '포석로 소<b>갈비</b>찜', 'link': 'https://www.instagram.com/poseok_ro', 'category': '음식점>한식', 'description': '', 'telephone': '', 'address': '경상북도 경주시 황남동 228-1', 'roadAddress': '경상북도 경주시 포석로1068번길 22', 'mapx': '35.1795543', 'mapy': '129.0756416'},
-                  {'title': '우목정', 'link': 'http://blog.naver.com/kim5325167', 'category': '한식>육류,고기요리', 'description': '', 'telephone': '', 'address': '경기도 포천시 이동면 장암리 283', 'roadAddress': '경기도 포천시 이동 면 화동로 1974', 'mapx': '344792', 'mapy': '602563'},
-                  {'title': '소옥', 'link': 'http://instagram.com/so.ok_official', 'category': '음식점>한식', 'description': '', 'telephone': '', 'address': '경상북도 경주시 황남동 224-7 1층', 'roadAddress': '경상북도 경주시 포석로1050번길 29 1층', 'mapx': '509737', 'mapy': '360086'},
-                  {'title': '원조이동김미자할머니<b>갈비</b>  포천이동본점', 'link': 'http://www.김미자할머니갈비.kr/', 'category': '한식>육류,고기요리', 'description': '', 'telephone': '', 'address': '경기도 포천시 이동면 장암리 216-3', 'roadAddress': '경기도 포천시 이동면 화동로 2087', 'mapx': '344545', 'mapy': '603667'}
-                  ]
+
+        WGS84 = {'proj':'latlong', 'datum':'WGS84', 'ellps':'WGS84',}
+        KATEC = {'proj':'tmerc', 'lat_0':'38N', 'lon_0':'128E', 'ellps':'bessel',
+        'x_0':'400000', 'y_0':'600000', 'k':'0.9999', 'a':'6377397.155', 'b':'6356078.9628181886',
+        'towgs84':'-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43', 'units':'m'}
+
+        inProj = Proj(**KATEC)
+        outProj = Proj(**WGS84)
+
+        x2, y2 = transform(inProj, outProj, 309947, 552092)
+        print(x2, y2)
+
         return jsonify(result['items'])
     else: #성공시 'result':'실패'
         return jsonify({'result': "실패"})
