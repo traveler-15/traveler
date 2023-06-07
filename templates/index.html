@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    
 
 
     <link
@@ -74,20 +75,18 @@
     </style>
   </head>
   <body>
+    <!-- <a href="member/signup"><p>회원가입</p></a>
+    <a href="member/login"><p>로그인</p></a> -->
     <!-- Map 불러오기 -->
     <div id="map" style="width:100%;height:400px;"></div>
     <div class="mypost">
       <div class="form-floating mb-3">
         <input type="text" class="form-control" id="name" placeholder="url" />
         <label for="floatingInput">가고싶은 여행지 입력</label>
+        
       </div>
       <button id ="search" onclick="search_place()" type="button" class="btn btn-dark">
         여행지 추천 검색
-      </button>
-    </div>
-    <div>
-      <button id="to-jeju" type="button" class="btn btn-dark">
-        제주
       </button>
     </div>
     <div class="mycards" id="search_list">

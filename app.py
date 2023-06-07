@@ -6,7 +6,7 @@ from pyproj import Proj, transform
 app = Flask(__name__)
 
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://sparta:test@cluster0.lrw9rvw.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://sparta:test@cluster0.ga3pmrv.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 @app.route('/')
@@ -45,11 +45,57 @@ def place_search():
 
             item['mapy'], item['mapx'] = transform(inProj, outProj, item['mapx'], item['mapy'])
         
-        print(result['items'])
         return jsonify(result['items'])
-    else: #성공시 'result':'실패'
+    else: # 성공시 'result':'실패'
         return jsonify({'result': "실패"})
+
+# MongoDB에 데이터 보내기
+@app.route("/place/save", methods=["POST"])
+def save_map():
+    title_receive = request.form['title_give']
+    link_receive = request.form['link_give']
+    address_receive = request.form['address_give']
+    mapx_receive = request.form['mapx_give']
+    mapy_receive = request.form['mapy_give']
+
+    doc = {
+        'title':title_receive,
+        'link':link_receive,
+        'address':address_receive,
+        'mapx':mapx_receive,
+        'mapy':mapy_receive
+    }
+    db.maps.insert_one(doc)
+
+    return jsonify({'msg':'저장완료!'})
+
+# @app.route('/member/signup')#회원가입 폼페이지로 이동
+# def member_save_form():
+#    return render_template('signup.html')
+
+# @app.route("/member/save", methods=["POST"])#로그인 폼 페이지로부터 정보를 받아 db member에 저장(중복 방지에 대해 미구현)
+# def member_save():
+#    name = request.form['name']
+#    email = request.form['email']
+#    password = request.form['password']
+#    nickname = request.form['nickname']
+#    doc = {'name':name,'email':email, 'password': password, 'nickname':nickname}
+#    db.member.insert_one(doc)
+#    return render_template('index.html')
+
+# @app.route('/member/login')#로그인 폼페이지로 이동
+# def member_login_form():
+#    return render_template('login.html')
+
+# @app.route("/member/login", methods=["POST"])#회원가입 폼 페이지로부터 정보를 받아 db member에서 찾기 (아직 회원 유무, 비번 확인에대해 미구현)
+# def member_login():
+#    email = request.form['email']
+#    password = request.form['password']
+#    print(type(db.member.find_one({'email':email , 'password' : password})['nickname']))
+   
+#    return render_template('index.html')
 
 
 if __name__ == '__main__':
    app.run('0.0.0.0', port=3000, debug=True)
+   
