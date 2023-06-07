@@ -9,21 +9,6 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://sparta:test@cluster0.lrw9rvw.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
-<<<<<<< HEAD
-
-WGS84 = {'proj':'latlong', 'datum':'WGS84', 'ellps':'WGS84',}
-KATEC = {'proj':'tmerc', 'lat_0':'38N', 'lon_0':'128E', 'ellps':'bessel',
-'x_0':'400000', 'y_0':'600000', 'k':'0.9999', 'a':'6377397.155', 'b':'6356078.9628181886',
-'towgs84':'-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43', 'units':'m'}
-
-inProj = Proj(**KATEC)
-outProj = Proj(**WGS84)
-
-x2, y2 = transform(inProj, outProj, 309947, 552092)
-print(x2, y2)
-
-=======
->>>>>>> e6bd5eebdc2471d13a903c22c4faacd665c0e2fa
 @app.route('/')
 def home():
    return render_template('index.html')
@@ -47,18 +32,20 @@ def place_search():
         response_body = response.read()
         # result를 배열 안에 객체 형태로 제작 부탁드립니다.
         result = json.loads(response_body)
+        
+        for item in result['items']:
+            
+            WGS84 = {'proj':'latlong', 'datum':'WGS84', 'ellps':'WGS84',}
+            KATEC = {'proj':'tmerc', 'lat_0':'38N', 'lon_0':'128E', 'ellps':'bessel',
+            'x_0':'400000', 'y_0':'600000', 'k':'0.9999', 'a':'6377397.155', 'b':'6356078.9628181886',
+            'towgs84':'-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43', 'units':'m'}
 
-        WGS84 = {'proj':'latlong', 'datum':'WGS84', 'ellps':'WGS84',}
-        KATEC = {'proj':'tmerc', 'lat_0':'38N', 'lon_0':'128E', 'ellps':'bessel',
-        'x_0':'400000', 'y_0':'600000', 'k':'0.9999', 'a':'6377397.155', 'b':'6356078.9628181886',
-        'towgs84':'-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43', 'units':'m'}
+            inProj = Proj(**KATEC)
+            outProj = Proj(**WGS84)
 
-        inProj = Proj(**KATEC)
-        outProj = Proj(**WGS84)
-
-        x2, y2 = transform(inProj, outProj, 309947, 552092)
-        print(x2, y2)
-
+            item['mapy'], item['mapx'] = transform(inProj, outProj, item['mapx'], item['mapy'])
+        
+        print(result['items'])
         return jsonify(result['items'])
     else: #성공시 'result':'실패'
         return jsonify({'result': "실패"})
