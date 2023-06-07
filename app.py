@@ -6,7 +6,7 @@ from pyproj import Proj, transform
 app = Flask(__name__)
 
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://sparta:test@obligedwalnut.tbbadoy.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://sparta:test@cluster0.ga3pmrv.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 @app.route('/')
@@ -48,6 +48,16 @@ def place_search():
         return jsonify(result['items'])
     else: # 성공시 'result':'실패'
         return jsonify({'result': "실패"})
+    
+
+# 찜 데이터 삭제
+@app.route('/place/delete', methods=["POST"])
+def delete_map():
+    title_receive = str(request.form['title_give'])
+    print(title_receive)
+    db.maps.delete_one({'title':title_receive})
+    return jsonify({'msg': "삭제완료!"})
+
 
 # MongoDB에 데이터 보내기
 @app.route("/place/save", methods=["POST"])
