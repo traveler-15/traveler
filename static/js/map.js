@@ -20,7 +20,8 @@ const show_place = function () {
                                     <p>이름 : ${title} </p>
                                     <a href = '#'><p id = "find_search" onclick="select_map(${mapx}, ${mapy})">위치 : ${address}</p></a>
                                     <a href = "${link}"><p>${link}</p></a>
-                                                                     </blockquote>
+                                    <button id ="delete" onclick="delete_place('${title}')" type="button" class="btn btn-dark">삭제</button>
+                                  </blockquote>
                               </div>
                            </div>`
          $('#show_list').append(temp_html);
@@ -28,6 +29,24 @@ const show_place = function () {
       })
    })
 }
+
+// 찜 기록 삭제
+const delete_place = function (title) {
+   console.log(title)
+   console.log(typeof(title))
+
+   let formData = new FormData();
+   formData.append("title_give", title);
+
+   fetch("/place/delete", { method: "POST", body: formData })
+      .then((res) => res.json())
+      .then((data) => {
+         alert(data["msg"]);
+         window.location.reload()
+      });
+}
+
+
 
 // 가고싶은 여행지 검색 및 리스트 띄우기
 const search_place = function () {
@@ -70,8 +89,8 @@ const search_place = function () {
       });
 }
 
-const select_map = function(mapx,mapy){
-   var find_map = new naver.map.LatLng(mapx,mapy);
+const select_map = function (mapx, mapy) {
+   var find_map = new naver.map.LatLng(mapx, mapy);
    map.setcenter(find_map);
    // marker.position(find_map);
 }
