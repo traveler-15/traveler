@@ -54,7 +54,6 @@ def place_search():
 @app.route('/place/delete', methods=["POST"])
 def delete_map():
     title_receive = str(request.form['title_give'])
-    print(title_receive)
     db.maps.delete_one({'title':title_receive})
     return jsonify({'msg': "삭제완료!"})
 

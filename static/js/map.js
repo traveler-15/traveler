@@ -30,24 +30,6 @@ const show_place = function () {
    })
 }
 
-// 찜 기록 삭제
-const delete_place = function (title) {
-   console.log(title)
-   console.log(typeof(title))
-
-   let formData = new FormData();
-   formData.append("title_give", title);
-
-   fetch("/place/delete", { method: "POST", body: formData })
-      .then((res) => res.json())
-      .then((data) => {
-         alert(data["msg"]);
-         window.location.reload()
-      });
-}
-
-
-
 // 가고싶은 여행지 검색 및 리스트 띄우기
 const search_place = function () {
    let query = $("#name").val();
@@ -62,7 +44,7 @@ const search_place = function () {
          // 0번째 위치값 선정 후 좌표 전달
          let first_place = new naver.maps.LatLng(rows[0]['mapx'], rows[0]['mapy'])
          map.setCenter(first_place);
-         // marker.position(first_place);
+         marker.position(first_place);
 
          // 리스트 비워두기
          $('#search_list').empty();
@@ -89,12 +71,13 @@ const search_place = function () {
       });
 }
 
+// 선택 시 Map 위치 이동 및 마커 표시
 const select_map = function (mapx, mapy) {
-   var find_map = new naver.map.LatLng(mapx, mapy);
-   map.setcenter(find_map);
-   // marker.position(find_map);
+   var find_map = new naver.maps.LatLng(mapx, mapy);
+   map.setCenter(find_map);
 }
 
+// Place 저장하기
 const save_map = function (title, link, address, mapx, mapy) {
    // formdata 만들기
    // save_map에서 데이터 받아오기
@@ -114,15 +97,27 @@ const save_map = function (title, link, address, mapx, mapy) {
 
 };
 
+// 찜 기록 삭제
+const delete_place = function (title) {
+   let formData = new FormData();
+   formData.append("title_give", title);
+
+   fetch("/place/delete", { method: "POST", body: formData })
+      .then((res) => res.json())
+      .then((data) => {
+         alert(data["msg"]);
+         window.location.reload()
+      });
+}
 
 // 초기 Map 설정
-let xMap = 37.3595704
-let yMap = 127.105399
+let mapx = 37.3595704
+let mapy = 127.105399
 
 
 // Map Option 기능
 let mapOptions = {
-   center: new naver.maps.LatLng(xMap, yMap),
+   center: new naver.maps.LatLng(mapx, mapy),
    zoomControl: true,
    zoomControlOptions: {
       style: naver.maps.ZoomControlStyle.SMALL,
