@@ -30,7 +30,6 @@ def place_search():
     rescode = response.getcode()
     if(rescode==200): #성공시 'result':데이터
         response_body = response.read()
-        # result를 배열 안에 객체 형태로 제작 부탁드립니다.
         result = json.loads(response_body)
         
         for item in result['items']:
