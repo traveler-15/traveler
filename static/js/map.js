@@ -43,6 +43,7 @@ const search_place = function () {
          // 0번째 위치값 선정 후 좌표 전달
          let first_place = new naver.maps.LatLng(rows[0]['mapx'], rows[0]['mapy'])
          map.setCenter(first_place);
+         // marker.position(first_place);
 
          // 리스트 비워두기
          $('#search_list').empty();
@@ -69,6 +70,11 @@ const search_place = function () {
       });
 }
 
+const select_map = function(mapx,mapy){
+   var find_map = new naver.map.LatLng(mapx,mapy);
+   map.setcenter(find_map);
+   // marker.position(find_map);
+}
 
 const save_map = function (title, link, address, mapx, mapy) {
    // formdata 만들기
@@ -109,8 +115,7 @@ let mapOptions = {
 // Map을 templates에 띄우는 코드
 let map = new naver.maps.Map(document.querySelector("#map"), mapOptions);
 
-// let marker = new naver.maps.Marker({
-//    position: new naver.maps.LatLng(xMap, yMap),
-//    map: map
-// });
+let marker = new naver.maps.Marker({
+   map: map
+});
 
