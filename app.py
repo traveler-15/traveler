@@ -6,7 +6,7 @@ from pyproj import Proj, transform
 app = Flask(__name__)
 
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://sparta:test@cluster0.ga3pmrv.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://sparta:test@obligedwalnut.tbbadoy.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 @app.route('/')
@@ -68,6 +68,12 @@ def save_map():
     db.maps.insert_one(doc)
 
     return jsonify({'msg':'저장완료!'})
+
+@app.route("/place/show", methods=['GET'])
+def show_place():
+    all_maps = list(db.maps.find({},{'_id':False}))
+    return jsonify({'result':all_maps})
+
 
 # @app.route('/member/signup')#회원가입 폼페이지로 이동
 # def member_save_form():
