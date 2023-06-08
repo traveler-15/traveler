@@ -145,8 +145,8 @@ def show_place():
 @app.route("/place/search_save")
 def show_save_search():
     token_receive = request.cookies.get('mytoken')
-    search_recieve = "성수"
-    query = '.*'+search_recieve+'.*' # '.*대.*'
+    search_recieve = request.form['search_give']
+    query = '.*'+search_recieve+'.*'
     rgx = re.compile(query, re.IGNORECASE)
     
     try:
