@@ -57,33 +57,51 @@ const show_save = function () {
 };
 
 // 찜 목록 찾기
-<<<<<<< HEAD
 const search_save = function () {
-  let query = $("#search").val();
+  let query = $("#save").val();
   let formData = new FormData();
   formData.append("search_give", query);
+
+  $("#search_list_wrap").empty();
+  let temp_html = `<div class="wrap">
+                     <div class="search">
+                     <input id = "save" type="text" class="searchTerm" placeholder="찜 목록 검색">
+                     <button type="button" class="searchButton" onclick="search_save()">검색</button>
+                     </div>
+                  </div>
+                  <div class = "mylist", id = "mylist">
+                  </div>`;
+  $("#search_list_wrap").append(temp_html);
 
   // fetch로 app.py에 데이터 보내기.
   fetch("/place/search_save", { method: "POST", body: formData })
     .then((response) => response.json())
     .then((data) => {
-      alert(data["msg"]);
+      let rows = data["result"]; // 배열 안에 객체
+      console.log(rows);
+
+      // 리스트 비워두기
+      $("#mylist").empty();
+      // rows 반복문 진행 -> 5개의 여행지 리스트 출력
+      rows.forEach((v) => {
+        let title = v["title"].replace("<b>", "").replace("</b>", ""), // 이름
+          link = v["link"], // 링크
+          address = v["address"], // 주소
+          mapx = v["mapx"], // x좌표
+          mapy = v["mapy"]; // y좌표
+        // temp_html 템플릿 출력하기
+        let temp_html = `<div class="card">
+                                 <div class="card-body">
+                                    <p>이름 : ${title} </p>
+                                    <a href = '#'><p id = "find_search" onclick="select_map(${mapx}, ${mapy})">위치 : ${address}</p></a>
+                                    <a href = "${link}"><p class = "link">${link}</p></a>
+                                    <button id ="delete" onclick="save_map('${title}', '${link}', '${address}', '${mapx}', '${mapy}')" type="button" class="save_button">저장</button>
+                                 </div>
+                              </div>`;
+        $("#mylist").append(temp_html);
+      });
     });
 };
-=======
-const search_save = function() {
-   let query = $("#search").val();
-   let formData = new FormData();
-   formData.append("search_give", query);
- 
-   // fetch로 app.py에 데이터 보내기.
-   fetch("/place/search_save", { method: "POST", body: formData })
-     .then((response) => response.json())
-     .then((data) => {
-       alert(data["msg"]);
-     });
-}
->>>>>>> bfbc830650bad07257ecd5b062b5b11017ad74d4
 
 // 가고싶은 여행지 검색 및 리스트 띄우기
 const search_place = function () {

@@ -142,10 +142,11 @@ def show_place():
     return jsonify({'result':all_maps})
 
 #찜목록 키워드 검색 (select like)
-@app.route("/place/search_save")
+@app.route("/place/search_save", methods=['POST'])
 def show_save_search():
     token_receive = request.cookies.get('mytoken')
     search_recieve = request.form['search_give']
+    print(search_recieve)
     query = '.*'+search_recieve+'.*'
     rgx = re.compile(query, re.IGNORECASE)
     
@@ -157,7 +158,7 @@ def show_save_search():
     except jwt.exceptions.DecodeError:
         return redirect(url_for("member_login_form", msg="로그인 정보가 존재하지 않습니다."))
     
-    all_maps = list(db.maps.find({"title": rgx, 'user_id' : user_id},{'_id':False}))
+    all_maps = list(db.maps.find({'title': rgx, "user_id": user_id},{'_id':False}))
     return jsonify({'result':all_maps})
 
 #####################################################
