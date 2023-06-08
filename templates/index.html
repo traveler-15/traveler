@@ -37,55 +37,13 @@
     <div class = "div_center">
       <div class="div_right" id ="info">
         <div class = "div_info">
-          <button id ="search_list" onclick="show_search()" type="button" class="info_button">위치 검색</button>
+          <button id ="search_list" onclick="show_place()" type="button" class="info_button">위치 검색</button>
           <button id ="save_list" onclick="show_save()" type="button" class="info_button">찜 목록</button>
         </div>
         <div id = "search_list_wrap">
-          <div class="wrap">
-            <div class="search">
-                <input type="text" class="searchTerm" placeholder="여행지 검색">
-                <button type="button" class="searchButton">검색</button>
-            </div>
-          </div>
-          <div class = "mylist">
-            <div class="card">
-              <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                  <p>이름 : ${title} </p>
-                  <a href = '#'><p id = "find_search" onclick="select_map(${mapx}, ${mapy})">위치 : ${address}</p></a>
-                  <a href = "${link}"><p>${link}</p></a>
-                  <button id ="delete" onclick="delete_place('${title}')" type="button" class="btn btn-dark">삭제</button>
-                </blockquote>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                  <p>이름 : ${title} </p>
-                  <a href = '#'><p id = "find_search" onclick="select_map(${mapx}, ${mapy})">위치 : ${address}</p></a>
-                  <a href = "${link}"><p>${link}</p></a>
-                  <button id ="delete" onclick="delete_place('${title}')" type="button" class="delete_button">삭제</button>
-                </blockquote>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <div class="div_left" id="map"></div>
-    </div>
-    <div class="mypost">
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" placeholder="url" />
-        <label for="floatingInput">가고싶은 여행지 입력</label>
-        
-      </div>
-      <button id ="search" onclick="search_place()" type="button" class="btn btn-dark">
-        여행지 추천 검색
-      </button>
-    </div>
-    <div class="mycards" id="search_list">
-    </div>
-    <div class="mycards" id="show_list">
     </div>
   </body>
 </html>
