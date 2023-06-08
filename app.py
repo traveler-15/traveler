@@ -83,31 +83,31 @@ def show_place():
     return jsonify({'result':all_maps})
 
 
-# @app.route('/member/signup')#회원가입 폼페이지로 이동
-# def member_save_form():
-#    return render_template('signup.html')
+@app.route('/member/signup')#회원가입 폼페이지로 이동
+def member_save_form():
+   return render_template('signup.html')
 
-# @app.route("/member/save", methods=["POST"])#로그인 폼 페이지로부터 정보를 받아 db member에 저장(중복 방지에 대해 미구현)
-# def member_save():
-#    name = request.form['name']
-#    email = request.form['email']
-#    password = request.form['password']
-#    nickname = request.form['nickname']
-#    doc = {'name':name,'email':email, 'password': password, 'nickname':nickname}
-#    db.member.insert_one(doc)
-#    return render_template('index.html')
+@app.route("/member/save", methods=["POST"])#로그인 폼 페이지로부터 정보를 받아 db member에 저장(중복 방지에 대해 미구현)
+def member_save():
+   name = request.form['name']
+   email = request.form['email']
+   password = request.form['password']
+   nickname = request.form['nickname']
+   doc = {'name':name,'email':email, 'password': password, 'nickname':nickname}
+   db.member.insert_one(doc)
+   return render_template('index.html')
 
-# @app.route('/member/login')#로그인 폼페이지로 이동
-# def member_login_form():
-#    return render_template('login.html')
+@app.route('/member/login')#로그인 폼페이지로 이동
+def member_login_form():
+   return render_template('login.html')
 
-# @app.route("/member/login", methods=["POST"])#회원가입 폼 페이지로부터 정보를 받아 db member에서 찾기 (아직 회원 유무, 비번 확인에대해 미구현)
-# def member_login():
-#    email = request.form['email']
-#    password = request.form['password']
-#    print(type(db.member.find_one({'email':email , 'password' : password})['nickname']))
+@app.route("/member/login", methods=["POST"])#회원가입 폼 페이지로부터 정보를 받아 db member에서 찾기 (아직 회원 유무, 비번 확인에대해 미구현)
+def member_login():
+   email = request.form['email']
+   password = request.form['password']
+   print(type(db.member.find_one({'email':email , 'password' : password})['nickname']))
    
-#    return render_template('index.html')
+   return render_template('index.html')
 
 
 if __name__ == '__main__':
