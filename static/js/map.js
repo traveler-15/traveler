@@ -57,22 +57,18 @@ const show_save = function () {
 };
 
 // 찜 목록 찾기
-<<<<<<< HEAD
-const search_save = function () {};
-=======
-const search_save = function() {
-   let query = $("#search").val();
-   let formData = new FormData();
-   formData.append("search_give", query);
- 
-   // fetch로 app.py에 데이터 보내기.
-   fetch("/place/search_save", { method: "POST", body: formData })
-     .then((response) => response.json())
-     .then((data) => {
-       alert(data["msg"]);
-     });
-}
->>>>>>> 88e0480a5523ae6781862c6d6603cf6485374ba0
+const search_save = function () {
+  let query = $("#search").val();
+  let formData = new FormData();
+  formData.append("search_give", query);
+
+  // fetch로 app.py에 데이터 보내기.
+  fetch("/place/search_save", { method: "POST", body: formData })
+    .then((response) => response.json())
+    .then((data) => {
+      alert(data["msg"]);
+    });
+};
 
 // 가고싶은 여행지 검색 및 리스트 띄우기
 const search_place = function () {
