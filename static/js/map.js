@@ -138,6 +138,12 @@ const delete_place = function (title) {
       });
 }
 
+function logout() {
+   $.removeCookie("mytoken");
+   alert("로그아웃!");
+   window.location.href = "/login";
+ }
+
 // 초기 Map 설정
 let mapx = 37.3595704
 let mapy = 127.105399
@@ -161,4 +167,6 @@ let marker = new naver.maps.Marker({
    position: new naver.maps.LatLng(mapx, mapy),
    map: map
 });
+
+
 
