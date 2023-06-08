@@ -145,8 +145,8 @@ def show_place():
 @app.route("/place/search_save")
 def show_save_search():
     token_receive = request.cookies.get('mytoken')
-    search_recieve = "성수"
-    query = '.*'+search_recieve+'.*' # '.*대.*'
+    search_recieve = request.form['search_give']
+    query = '.*'+search_recieve+'.*'
     rgx = re.compile(query, re.IGNORECASE)
     
     try:
@@ -175,7 +175,7 @@ def member_save_form():
 @app.route("/api/register", methods=["POST"])#로그인 폼 페이지로부터 정보를 받아 db member에 저장(중복 방지에 대해 미구현)
 def member_save():
     id_receive = request.form['id_give']
-    if db.user.find_one({"id": payload['id']})['id'] is None:
+    if db.user.find_one({"id": id_receive})['id'] is None:
         pw_receive = request.form['pw_give']
         nickname_receive = request.form['nickname_give']
 
