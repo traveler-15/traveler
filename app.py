@@ -141,6 +141,22 @@ def show_place():
     all_maps = list(db.maps.find({"user_id" : user_id},{'_id':False}))
     return jsonify({'result':all_maps})
 
+#db.컬렉션.find({text : {$regex : 'abcd'} })
+# @app.route("/place/save/search", methods=['POST'])
+# def show_save_search():
+#     token_receive = request.cookies.get('mytoken')
+#     title_receive = ""
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms="HS256")
+#         user_id = db.user.find_one({"id": payload['id']})['id']
+#     except jwt.ExpiredSignatureError:
+#         return redirect(url_for("member_login_form", msg="로그인 시간이 만료되었습니다."))
+#     except jwt.exceptions.DecodeError:
+#         return redirect(url_for("member_login_form", msg="로그인 정보가 존재하지 않습니다."))
+    
+#     all_maps = list(db.maps.find({ "title": { "$regex": "^H^" }}))
+#     return jsonify({'result':all_maps})
+
 #####################################################
 #회원 가입 API
 #####################################################
@@ -197,7 +213,7 @@ def member_login():
         # exp에는 만료시간을 넣어줍니다. 만료시간이 지나면, 시크릿키로 토큰을 풀 때 만료되었다고 에러가 납니다.
         payload = {
             'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60*30)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
