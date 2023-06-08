@@ -95,6 +95,7 @@ const save_map = function (title, link, address, mapx, mapy) {
     .then((response) => response.json())
     .then((data) => {
       alert(data["msg"]);
+      window.location.reload();
     });
 };
 
