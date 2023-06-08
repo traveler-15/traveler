@@ -37,15 +37,39 @@
     <div class = "div_center">
       <div class="div_right" id ="info">
         <div class = "div_info">
-          <button type="button" class="info_button">위치 검색</button>
-          <button type="button" class="info_button">찜 목록</button>
+          <button id ="search_list" onclick="show_search()" type="button" class="info_button">위치 검색</button>
+          <button id ="save_list" onclick="show_save()" type="button" class="info_button">찜 목록</button>
         </div>
-        <div class="wrap">
-          <div class="search">
-             <input type="text" class="searchTerm" placeholder="여행지 검색">
-             <button type="button" class="searchButton">검색</button>
+        <div id = "search_list_wrap">
+          <div class="wrap">
+            <div class="search">
+                <input type="text" class="searchTerm" placeholder="여행지 검색">
+                <button type="button" class="searchButton">검색</button>
+            </div>
           </div>
-       </div>
+          <div class = "mylist">
+            <div class="card">
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>이름 : ${title} </p>
+                  <a href = '#'><p id = "find_search" onclick="select_map(${mapx}, ${mapy})">위치 : ${address}</p></a>
+                  <a href = "${link}"><p>${link}</p></a>
+                  <button id ="delete" onclick="delete_place('${title}')" type="button" class="btn btn-dark">삭제</button>
+                </blockquote>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>이름 : ${title} </p>
+                  <a href = '#'><p id = "find_search" onclick="select_map(${mapx}, ${mapy})">위치 : ${address}</p></a>
+                  <a href = "${link}"><p>${link}</p></a>
+                  <button id ="delete" onclick="delete_place('${title}')" type="button" class="delete_button">삭제</button>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="div_left" id="map"></div>
     </div>
