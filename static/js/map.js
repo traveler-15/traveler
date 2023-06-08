@@ -57,9 +57,6 @@ const show_save = function () {
 };
 
 // 찜 목록 찾기
-<<<<<<< HEAD
-const search_save = function () {};
-=======
 const search_save = function() {
    let query = $("#search").val();
    let formData = new FormData();
@@ -72,7 +69,6 @@ const search_save = function() {
        alert(data["msg"]);
      });
 }
->>>>>>> 88e0480a5523ae6781862c6d6603cf6485374ba0
 
 // 가고싶은 여행지 검색 및 리스트 띄우기
 const search_place = function () {
@@ -182,8 +178,4 @@ let map = new naver.maps.Map(document.querySelector("#map"), mapOptions);
 let marker = new naver.maps.Marker({
   position: new naver.maps.LatLng(mapx, mapy),
   map: map,
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> d3e9b49f9388ce02d9e79eedf1b3322bec84b624
