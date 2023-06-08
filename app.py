@@ -146,7 +146,6 @@ def show_place():
 def show_save_search():
     token_receive = request.cookies.get('mytoken')
     search_recieve = request.form['search_give']
-    print(search_recieve)
     query = '.*'+search_recieve+'.*'
     rgx = re.compile(query, re.IGNORECASE)
     
