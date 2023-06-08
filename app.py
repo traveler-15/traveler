@@ -47,7 +47,6 @@ def place_search():
         return jsonify(result['items'])
     else: # 성공시 'result':'실패'
         return jsonify({'result': "실패"})
-    
 
 # 찜 데이터 삭제
 @app.route('/place/delete', methods=["POST"])
