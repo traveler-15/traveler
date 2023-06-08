@@ -81,8 +81,18 @@ def place_search():
 # 찜 데이터 삭제
 @app.route('/place/delete', methods=["POST"])
 def delete_map():
+    token_receive = request.cookies.get('mytoken')
     title_receive = str(request.form['title_give'])
-    db.maps.delete_one({'title':title_receive})
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms="HS256")
+        user_id = payload['id']
+        db.maps.delete_one({'title':title_receive,'user_id':user_id})
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("member_login_form", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("member_login_form", msg="로그인 정보가 존재하지 않습니다."))
+    
+    
     return jsonify({'msg': "삭제완료!"})
 
 
@@ -95,9 +105,16 @@ def save_map():
     address_receive = request.form['address_give']
     mapx_receive = request.form['mapx_give']
     mapy_receive = request.form['mapy_give']
+
     token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms="HS256")
-    user_id = db.user.find_one({"id": payload['id']})['id']
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms="HS256")
+        user_id = db.user.find_one({"id": payload['id']})['id']
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("member_login_form", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("member_login_form", msg="로그인 정보가 존재하지 않습니다."))
+    
     doc = {
         'title':title_receive,
         'link':link_receive,
@@ -113,9 +130,14 @@ def save_map():
 @app.route("/place/show", methods=['GET'])
 def show_place():
     token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms="HS256")
-    user_id = db.user.find_one({"id": payload['id']})['id']
-    print(user_id)
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms="HS256")
+        user_id = db.user.find_one({"id": payload['id']})['id']
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("member_login_form", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("member_login_form", msg="로그인 정보가 존재하지 않습니다."))
+    
     all_maps = list(db.maps.find({"user_id" : user_id},{'_id':False}))
     return jsonify({'result':all_maps})
 
@@ -134,14 +156,18 @@ def member_save_form():
 @app.route("/api/register", methods=["POST"])#로그인 폼 페이지로부터 정보를 받아 db member에 저장(중복 방지에 대해 미구현)
 def member_save():
     id_receive = request.form['id_give']
-    pw_receive = request.form['pw_give']
-    nickname_receive = request.form['nickname_give']
+    if db.user.find_one({"id": payload['id']})['id'] is None:
+        pw_receive = request.form['pw_give']
+        nickname_receive = request.form['nickname_give']
 
-    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+        pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
-    db.user.insert_one({'id': id_receive, 'pw': pw_hash, 'nick': nickname_receive})
+        db.user.insert_one({'id': id_receive, 'pw': pw_hash, 'nick': nickname_receive})
 
-    return jsonify({'result': 'success'})
+        return jsonify({'result': 'success'})
+    else :
+        return jsonify({'result': 'ID Duplicated'})
+    
 
 #################################
 ##  로그인을 위한 API            ##
@@ -171,7 +197,7 @@ def member_login():
         # exp에는 만료시간을 넣어줍니다. 만료시간이 지나면, 시크릿키로 토큰을 풀 때 만료되었다고 에러가 납니다.
         payload = {
             'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60*10)
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 

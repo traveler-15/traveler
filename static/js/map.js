@@ -75,6 +75,7 @@ const search_place = function () {
 // 선택 시 Map 위치 이동 및 마커 표시
 const select_map = function (mapx, mapy) {
   var find_map = new naver.maps.LatLng(mapx, mapy);
+
   map.setCenter(find_map);
   marker.setPosition(find_map);
 };
@@ -84,6 +85,7 @@ const save_map = function (title, link, address, mapx, mapy) {
   // formdata 만들기
   // save_map에서 데이터 받아오기
   let formData = new FormData();
+
   formData.append("title_give", title);
   formData.append("link_give", link);
   formData.append("address_give", address);
