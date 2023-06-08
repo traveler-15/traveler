@@ -182,4 +182,8 @@ let map = new naver.maps.Map(document.querySelector("#map"), mapOptions);
 let marker = new naver.maps.Marker({
   position: new naver.maps.LatLng(mapx, mapy),
   map: map,
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> d3e9b49f9388ce02d9e79eedf1b3322bec84b624
